@@ -64,7 +64,7 @@ def body(request):
 	b = fake.tag_gen('table')
 
 	
-	return render_to_response('body.txt',{'rand':b})
+	return render_to_response('body.html',{'rand':b})
 
 # 1. Отобрать все теги и какие атрибуты у них есть, какие могут иметь значения.
 # 2. Дальше отсортировать атрибуты, которые могут быть у всех тегов. Какие могут быть только у определенных.
