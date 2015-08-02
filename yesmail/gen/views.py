@@ -40,17 +40,18 @@ class FakeTag():
 		return string_attrs
 
 	def tag_gen(self,tagname):
-		table = '<'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'
+		table = '<'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)+'>'
 		table += '<'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'
 
 		for tr in range(random.randint(1,7)):
-			td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'
+			# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'
 			table += '<'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'
-			table += td
+			for td in range(random.randint(1,4)):
+				a = self.attr_gen('td')
+				table += '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+a+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
 			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'
 
-
-		table += '</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'
+		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'
 
 		return table
 
