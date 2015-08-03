@@ -1,59 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response, redirect,render
 import gen
-import string
-import random
-
-class FakeTag():
-	spaces = [' ','\t',' ','  ','   ','    ']
-	attr = {
-	'dir':random.choice(['ltr','rtl','auto','']),
-	'align':random.choice(['center','left','right','']),
-	'valign':random.choice(['top','middle','bottom','baseline','']),
-	}
-
-	tag = {
-	'table':['dir','align'],
-	'td':['align','valign'],
-	'tr':[],
-	'tbody':[],
-	}
-
-	def attr_gen(self,tagname):
-		count_random = random.randint(0,len(self.tag[tagname]))
-
-		# Выбираем случайные атрибуты и рандомим их если больше одного
-		attr_tags = self.tag[tagname][:count_random]
-
-		if len(attr_tags)>0:
-			random.shuffle(attr_tags)
-
-		# Формируем строку из атрибутов и их значений
-		list_attr = []
-		for a in attr_tags:
-			qoutes = random.choice(['\'','\"'])
-			a = random.choice(self.spaces)+a+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+self.attr[a]+random.choice(self.spaces)+qoutes+random.choice(self.spaces)
-			list_attr.append(a)
-
-		string_attrs = ' '.join(list_attr)
-
-		return string_attrs
-
-	def tag_gen(self,tagname):
-		table = '<'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)+'>'
-		table += '<'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'
-
-		for tr in range(random.randint(1,7)):
-			# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'
-			table += '<'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'
-			for td in range(random.randint(1,4)):
-				a = self.attr_gen('td')
-				table += '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+a+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
-			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'
-
-		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'
-
-		return table
+from randtaghtml import *
 
 
 
@@ -61,10 +9,9 @@ class FakeTag():
 
 def body(request):
 	fake = FakeTag()
-	b = fake.tag_gen('table')
-
+	a = fake.tag_gen('table')
 	
-	return render_to_response('body.html',{'rand':b})
+	return render_to_response('body.html',{'rand':a})
 
 # 1. Отобрать все теги и какие атрибуты у них есть, какие могут иметь значения.
 # 2. Дальше отсортировать атрибуты, которые могут быть у всех тегов. Какие могут быть только у определенных.
