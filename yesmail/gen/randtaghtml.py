@@ -36,7 +36,7 @@ class FakeTag():
 				words+=word
 		return words
 
-	def style_gen(self):
+	def style_gen(self,opacity="no"):
 		attr = {
 		'align':random.choice(['center','left','right','']),
 		'width': random.choice([str(random.randint(20,200))+random.choice(['px','%']),'auto','inherit','']),
@@ -55,14 +55,28 @@ class FakeTag():
 		'border-right':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
 		'line-height':random.choice(['normal','inherit',str(random.randint(0,20))+'px',str(random.randint(0,4))+'%',str(random.randrange(0,2))]),
 		'display':random.choice(['inline-block','block','none','inline','inline-table','list-item','run-in','table','table-caption','table-cell','table-column','table-row','table-row-group','table-footer-group','table-header-group','table-column-group']),
+		'opacity':str(random.random()),
 		}
 
 		# Случайное количество атрибутов
-		count_random = random.randint(0,len(attr.keys()))
+		count_random = random.randint(0,round(len(attr.keys())/2))
+
+		if opacity=="opacity":
+			# Удаляем из словаря display и opacity
+			attr.pop('display')
+			attr.pop('opacity')
+			attr_style = attr.keys()[:count_random]
+			attr['display'] = 'none'
+			attr['opacity'] = '0'
+			attr_style+=attr_style+[random.choice(['display','opacity'])]
+
+
+
+		else:
+			attr_style = attr.keys()[:count_random]
+
 
 		# Выбираем случайные атрибуты и рандомим их если больше одного
-		attr_style = attr.keys()[:count_random]
-
 		if len(attr_style)>0:
 			random.shuffle(attr_style)
 
@@ -77,7 +91,14 @@ class FakeTag():
 		return string_style
 
 
-	def attr_gen(self,tagname):
+	def attr_gen(self,tagname,opacity="no"):
+		tag_this = {
+		'table':['dir','align','cellpadding','cellspacing','border','width','style','id','class'],
+		'td':['align','valign','width','style','id','class'],
+		'tr':[],
+		'tbody':[],
+		}
+
 		attr = {
 		'dir':random.choice(['ltr','rtl','auto','']),
 		'align':random.choice(['center','left','right','']),
@@ -91,11 +112,22 @@ class FakeTag():
 		'class':self.word_gen(1),
 		}
 
+		count_random = random.randint(0,len(tag_this[tagname]))
 
-		count_random = random.randint(0,len(self.tag[tagname]))
+		if opacity=="opacity":
+			# Удаляем из словаря style
+			attr.pop('style')
+			tag_this[tagname].pop(6)
 
-		# Выбираем случайные атрибуты и рандомим их если больше одного
-		attr_tags = self.tag[tagname][:count_random]
+			attr_tags = tag_this[tagname][:count_random]
+			attr['style']=self.style_gen('opacity')	
+			attr_tags += attr_tags+['style']
+			
+		else:
+			# Выбираем случайные атрибуты и рандомим их если больше одного
+			attr_tags = self.tag[tagname][:count_random]
+
+
 
 		if len(attr_tags)>0:
 			random.shuffle(attr_tags)
@@ -113,27 +145,27 @@ class FakeTag():
 
 		return string_attrs
 
-	def tag_gen(self,tagname,opacity='no'):
-		table = '<'+tagname+' '+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)		
-		if opacity=="yes":
-			qoutes = random.choice(['\'','\"'])
-			opacity_rand = random.choice(['style="display:none"','style="opacity:0"'])
-			table += opacity_rand+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+	def tag_gen(self,tagname,count=1,opacity='no'):
+		if opacity=='opacity':
+			style_table = self.attr_gen(tagname,opacity)
 		else:
-			table += '>'+random.choice(self.tabs)
+			style_table = self.attr_gen(tagname)
+		
+		tag_str = ''
+		for i in range(0,count):
+			table = '<'+tagname+' '+random.choice(self.spaces)+style_table+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
-		table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			# Генерим tr 
+			for tr in xrange(random.randint(1,7)):
+				# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
+				table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				for i in xrange(random.randint(1,4)):
+					td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+					table += td+random.choice(self.tabs)
+				table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
-		# Генерим tr 
-		for tr in xrange(random.randint(1,7)):
-			# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
-			table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
-			for i in xrange(random.randint(1,4)):
-				td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
-				table += td+random.choice(self.tabs)
-			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			tag_str += table
 
-		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
-
-
-		return table
+		return tag_str
