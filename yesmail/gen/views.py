@@ -9,7 +9,7 @@ from randtaghtml import *
 
 def body(request):
 	fake = FakeTag()
-	a = fake.tag_gen('table')
+	a = fake.tag_gen('table','yes')
 	
 	return render_to_response('body.html',{'rand':a})
 

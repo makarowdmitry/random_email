@@ -7,6 +7,7 @@ class FakeTag():
 	spaces = [' ','']
 	spaces_words = [' ','   ']
 	tabs = ['\n','','\n\n','\t','\t\n']
+	punctuation = [',','!','?','.','.','.',',','','','-',';',':']
 
 	tag = {
 	'table':['dir','align','cellpadding','cellspacing','border','width','style','id','class'],
@@ -29,6 +30,8 @@ class FakeTag():
 
 			if i>0:
 				words+=word+random.choice(self.spaces_words)
+				if i%4==0:
+					words+=random.choice(self.punctuation)
 			else:
 				words+=word
 		return words
@@ -84,8 +87,8 @@ class FakeTag():
 		'cellspacing':str(random.randint(0,5)),
 		'border':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
 		'style':self.style_gen(),
-		'id':str(random.randint(1,9)),
-		'class':str(random.randint(1,9))
+		'id':self.word_gen(1),
+		'class':self.word_gen(1),
 		}
 
 
@@ -106,12 +109,19 @@ class FakeTag():
 			list_attr.append(a)
 
 		qoutes = random.choice(['\'','\"'])
-		string_attrs = ' '.join(list_attr+[random.choice(['data-'+self.word_gen(1)+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+str(random.randint(1,8))+random.choice(self.spaces)+qoutes,'','','',''])])
+		string_attrs = ' '.join(list_attr+[random.choice(['data-'+self.word_gen(1)+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+self.word_gen(1)+random.choice(self.spaces)+qoutes,'','','',''])])
 
 		return string_attrs
 
-	def tag_gen(self,tagname):
-		table = '<'+tagname+' '+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+	def tag_gen(self,tagname,opacity='no'):
+		table = '<'+tagname+' '+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)		
+		if opacity=="yes":
+			qoutes = random.choice(['\'','\"'])
+			opacity_rand = random.choice(['style="display:none"','style="opacity:0"'])
+			table += opacity_rand+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+		else:
+			table += '>'+random.choice(self.tabs)
+
 		table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
 		# Генерим tr 
@@ -124,5 +134,6 @@ class FakeTag():
 			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
 		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+
 
 		return table
