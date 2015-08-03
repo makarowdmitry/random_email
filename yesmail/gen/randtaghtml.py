@@ -5,10 +5,11 @@ import random
 
 class FakeTag():
 	spaces = [' ','']
+	tabs = ['\n','','\n\n','\t','\t\n']
 
 	tag = {
-	'table':['dir','align','cellpadding','cellspacing','border','width','style'],
-	'td':['align','valign','width','style'],
+	'table':['dir','align','cellpadding','cellspacing','border','width','style','id','class'],
+	'td':['align','valign','width','style','id','class'],
 	'tr':[],
 	'tbody':[],
 	}
@@ -18,6 +19,20 @@ class FakeTag():
 		'align':random.choice(['center','left','right','']),
 		'width': random.choice([str(random.randint(20,200))+random.choice(['px','%']),'auto','inherit','']),
 		'border':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
+		'padding':random.choice(['inherit',str(random.randint(0,23))+random.choice(['px','%']), str(random.randint(0,23))+random.choice(['px ','% '])+str(random.randint(0,23))+random.choice(['px ','% '])+str(random.randint(0,23))+random.choice(['px ','% '])+str(random.randint(0,23))+random.choice(['px ','% '])]),
+		'color':random.choice(['#'+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9)),'rgb('+str(random.randint(0,255))+','+str(random.randint(0,255))+','+str(random.randint(0,255))+')']),
+		'font-family':random.choice(['Helvetica, Arial, sans-serif','Arial','Tahoma','Verdana','Helvetica']),
+		'font-style':random.choice(['normal','italic','oblique','inherit']),
+		'background-color':random.choice(['#'+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9)),'rgb('+str(random.randint(0,255))+','+str(random.randint(0,255))+','+str(random.randint(0,255))+')']),
+		'font-size':random.choice([str(random.randint(3,18))+random.choice(['px','pt']),str(random.randint(73,216))+'%','inherit','xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large']),
+		'font-weight':random.choice(['bold','bolder','lighter','normal','100','200','300','400','500','600','700','800','900']),
+		'height':random.choice([str(random.randint(20,200))+random.choice(['px','%']),'auto','inherit','']),
+		'border-top':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
+		'border-bottom':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
+		'border-left':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
+		'border-right':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
+		'line-height':random.choice(['normal','inherit',str(random.randint(0,20))+'px',str(random.randint(0,4))+'%',str(random.randrange(0,2))]),
+		'display':random.choice(['inline-block','block','none','inline','inline-table','list-item','run-in','table','table-caption','table-cell','table-column','table-row','table-row-group','table-footer-group','table-header-group','table-column-group']),
 		}
 
 		# Случайное количество атрибутов
@@ -48,11 +63,12 @@ class FakeTag():
 		'width': random.choice([str(random.randint(20,200))+random.choice(['px','%']),'auto','inherit','']),
 		'cellpadding':str(random.randint(0,5)),
 		'cellspacing':str(random.randint(0,5)),
-		'border':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+'red',
+		'border':str(random.randint(0,2))+'px '+random.choice(['solid','dotted','dashed','double','groove','ridge','inset','outset'])+' red',
 		'style':self.style_gen(),
-		# 'bgcolor':,
-
+		'id':str(random.randint(1,9)),
+		'class':str(random.randint(1,9))
 		}
+
 
 		count_random = random.randint(0,len(self.tag[tagname]))
 
@@ -62,6 +78,7 @@ class FakeTag():
 		if len(attr_tags)>0:
 			random.shuffle(attr_tags)
 
+
 		# Формируем строку из атрибутов и их значений
 		list_attr = []
 		for a in attr_tags:
@@ -69,23 +86,24 @@ class FakeTag():
 			a = random.choice(self.spaces)+a+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+attr[a]+random.choice(self.spaces)+qoutes+random.choice(self.spaces)
 			list_attr.append(a)
 
-		string_attrs = ' '.join(list_attr)
+		qoutes = random.choice(['\'','\"'])
+		string_attrs = ' '.join(list_attr+['data-'+str(random.randint(1,8))+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+str(random.randint(1,8))+random.choice(self.spaces)+qoutes])
 
 		return string_attrs
 
 	def tag_gen(self,tagname):
-		table = '<'+tagname+' '+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)+'>'
-		table += '<tbody '+random.choice(self.spaces)+'>'
+		table = '<'+tagname+' '+random.choice(self.spaces)+self.attr_gen(tagname)+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+		table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
 		# Генерим tr 
 		for tr in xrange(random.randint(1,7)):
 			# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
-			table += '<tr '+random.choice(self.spaces)+'>'
+			table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 			for i in xrange(random.randint(1,4)):
 				td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
-				table += td
-			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'
+				table += td+random.choice(self.tabs)
+			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
-		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'
+		table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
 		return table
