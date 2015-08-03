@@ -5,6 +5,7 @@ import random
 
 class FakeTag():
 	spaces = [' ','']
+	spaces_words = [' ','   ']
 	tabs = ['\n','','\n\n','\t','\t\n']
 
 	tag = {
@@ -13,6 +14,24 @@ class FakeTag():
 	'tr':[],
 	'tbody':[],
 	}
+
+	def word_gen(self,count):
+		words =''
+		for i,ws in enumerate(range(count)):
+			vowels = ['e','y','u','i','o','a']
+			consonants = ['q','w','r','t','p','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']
+
+			word = ''
+			for w in range(random.randint(1,2)):
+				abc_list = [''.join(random.sample(vowels,random.randint(1,2))), ''.join(random.sample(consonants,random.randint(1,2)))]
+				random.shuffle(abc_list)
+				word += ''.join(abc_list)
+
+			if i>0:
+				words+=word+random.choice(self.spaces_words)
+			else:
+				words+=word
+		return words
 
 	def style_gen(self):
 		attr = {
@@ -87,7 +106,7 @@ class FakeTag():
 			list_attr.append(a)
 
 		qoutes = random.choice(['\'','\"'])
-		string_attrs = ' '.join(list_attr+['data-'+str(random.randint(1,8))+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+str(random.randint(1,8))+random.choice(self.spaces)+qoutes])
+		string_attrs = ' '.join(list_attr+[random.choice(['data-'+self.word_gen(1)+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+str(random.randint(1,8))+random.choice(self.spaces)+qoutes,'','','',''])])
 
 		return string_attrs
 
@@ -100,7 +119,7 @@ class FakeTag():
 			# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
 			table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 			for i in xrange(random.randint(1,4)):
-				td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+				td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
 				table += td+random.choice(self.tabs)
 			table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
