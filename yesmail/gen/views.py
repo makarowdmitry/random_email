@@ -5,8 +5,10 @@ from randtaghtml import *
 
 
 def body(request):
-	fake = FakeTag()
-	a = fake.tag_gen('table',1,'opacity')
+	tag = Tag()
+	a = tag.tag_fake('table',1,'opacity')+tag.tag_fake('table',1,'opacity')+tag.tag_general('table',1)+tag.tag_fake('table',1,'opacity')
+	# tag.tag_fake('table',1,'opacity')
+
 
 	return render_to_response('body.html',{'rand':a})
 
@@ -14,7 +16,7 @@ def body(request):
 
 
 # Черновик. Идеи
-# 0. Убрать дубликат генирация атрибутов в table. Opacity
+# +0. Убрать дубликат генирация атрибутов в table. Opacity
 # 1. Сделать генерацию table с картинкой и ссылкой. Должна отображаться хорошо
 # 2. Наполнить table основную тегами и атрибутами, которые не влияют на внешний вид.
 # 3. Вставить домены
