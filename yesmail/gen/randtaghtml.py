@@ -94,9 +94,9 @@ class Tag():
 			# attr.pop('opacity')
 			attr_style = attr.keys()[:count_random]
 			attr['display'] = 'none'
-			# attr['opacity'] = '0'
+			attr['opacity'] = '0'
 			# attr_style+=[random.choice(['display','opacity'])]
-			attr_style+=['display']
+			attr_style+=['display']+['opacity']
 
 
 
@@ -249,10 +249,10 @@ class Tag():
 					for c,m in enumerate(xrange(count_td)):
 						if c == 0:
 							random_for_a = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,9)))
-							random_for_img = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,9)))
+							random_for_img = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(random.randint(3,9)))
 							qoutes_a = random.choice(['\'','\"'])
 							qoutes_img = random.choice(['\'','\"'])
-							td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'[%%ORandText,domains_gen%%]'+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'[%%ORandText,domains_gen%%]'+'/'+random_for_img+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+'[%%ORandText,domains_gen%%]'+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+'[%%ORandText,domains_gen%%]'+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
 						else:
 							td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</td'+random.choice(self.spaces)+'>'
 
