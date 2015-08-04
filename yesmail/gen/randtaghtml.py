@@ -218,11 +218,11 @@ class Tag():
 				# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
 				table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 				for i in xrange(random.randint(1,4)):
-					td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+					td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</td'+random.choice(self.spaces)+'>'
 					table += td+random.choice(self.tabs)
-				table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				table += '</tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
-			table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '</tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 			tag_str += table
 
 		return tag_str
@@ -252,19 +252,19 @@ class Tag():
 							random_for_img = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,9)))
 							qoutes_a = random.choice(['\'','\"'])
 							qoutes_img = random.choice(['\'','\"'])
-							td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+'[%%ORandText,domains_gen%%]'+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+'[%%ORandText,domains_gen%%]'+'/'+random_for_img+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</'+random.choice(self.spaces)+'a'+random.choice(self.spaces)+'>'+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+							td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'[%%ORandText,domains_gen%%]'+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'[%%ORandText,domains_gen%%]'+'/'+random_for_img+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
 						else:
-							td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+							td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</td'+random.choice(self.spaces)+'>'
 
 						table += td+random.choice(self.tabs)
 				else:
 					for i in xrange(random.randint(1,3)):
-						td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+'>'
+						td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(4,17))+'</td'+random.choice(self.spaces)+'>'
 						table += td+random.choice(self.tabs)
 
-				table += '</'+random.choice(self.spaces)+'tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				table += '</tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 
-			table += '</'+random.choice(self.spaces)+'tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+random.choice(self.spaces)+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '</tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
 			tag_str += table
 
 		return tag_str

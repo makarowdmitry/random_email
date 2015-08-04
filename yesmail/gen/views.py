@@ -6,7 +6,7 @@ from randtaghtml import *
 
 def body(request):
 	tag = Tag()
-	a = tag.tag_fake('table',1,'opacity')+tag.tag_fake('table',1,'opacity')+tag.tag_general('table',1)+tag.tag_fake('table',1,'opacity')
+	a = tag.tag_fake('table',1,'opacity')+tag.tag_general('table',1)+tag.tag_fake('table',1,'opacity')
 	# tag.tag_fake('table',1,'opacity')
 
 
@@ -17,7 +17,7 @@ def body(request):
 
 # Черновик. Идеи
 # +0. Убрать дубликат генирация атрибутов в table. Opacity
-# +1. Сделать генерацию table с картинкой и ссылкой. Должна отображаться хорошо
+# 1. Сделать генерацию table с картинкой и ссылкой. Должна отображаться хорошо
 # 2. Наполнить table основную тегами и атрибутами, которые не влияют на внешний вид.
 # 3. Вставить домены
 # 4. Обернуть все строку с кодировкой и добавить заголовки
